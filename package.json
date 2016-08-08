@@ -1,0 +1,14 @@
+{
+  "name": "hook-playground",
+  "version": "0.1.0",
+  "description": "",
+  "main": "hook.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "tutu",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^3.0.1"
+  }
+}
