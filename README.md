@@ -6,39 +6,41 @@ There is a working hook on github [here](https://github.com/bnoguchi/hooks-js), 
 
 ## Example
 Basically, we use promise. 
+```javascript
+var myHook = require("./hook.js");
+var hook = Object.create(myHook);
 
-	var myHook = require("./hook.js");
-	var hook = Object.create(myHook);
-	
-	function doSomething(option){};
+function doSomething(option){};
 
-	//Add a hook, called "save"
-	hook.register("save", doSomething)
-		.preAsync("save", function(){
-          return new Promise(function(resolve, reject){
-            setTimeout(function(){
-		      console.log("hello from pre async, wait 1 second... ", option);
-		      resolve();
-		    }, 1000);
-          })
-        })
-		.pre("save", function(option){
-		  //'this' is null, you should (always) use bind explicitly
-          this.valuePre = option;
-        }.bind(hook))
-		.postAsync("save", function(option){
-		  //it's ok if you add a sync function to postAsync list
-          this.valuePostAsync = option;
-        }.bind(hook))
-		.post("save", function(option){
-          this.valuePost = option;
-        }.bind(hook));
+//Add a hook, called "save"
+hook.register("save", doSomething)
+	.preAsync("save", function(){
+      return new Promise(function(resolve, reject){
+        setTimeout(function(){
+	      console.log("hello from pre async, wait 1 second... ", option);
+	      resolve();
+	    }, 1000);
+      })
+    })
+	.pre("save", function(option){
+	  //'this' is null, you should (always) use bind explicitly
+      this.valuePre = option;
+    }.bind(hook))
+	.postAsync("save", function(option){
+	  //it's ok if you add a sync function to postAsync list
+      this.valuePostAsync = option;
+    }.bind(hook))
+	.post("save", function(option){
+      this.valuePost = option;
+    }.bind(hook));
 
-	//Call the "save" hook, it returns a promise
-	hook.run("save", 1)
-      .then(function(){
-		//do something next
-      });
+//Call the "save" hook, it returns a promise
+hook.run("save", 1)
+  .then(function(){
+	//do something next
+  });
+```
+
 
 ### Some notes:
 - Following the promise standard when you explicit call the preAsync or postAsync method is highly recommended, either calling an existing promise style api call, or wrap one into promise style.
