@@ -35,7 +35,7 @@ hook.register("save", doSomething)
     }.bind(hook));
 
 //Call the "save" hook, it returns a promise
-hook.run("save", 1)
+hook.run("save")
   .then(function(){
 	//do something next
   });
@@ -79,8 +79,9 @@ hook.run("save", 1)
 	- if `callback` is ommited, `postAsyncRemove` removes all the callbacks in the postAsync function list with specified name
 - Hook.destroy(name)
 	- clear the named hook and all the attached callbacks
-- Hook.run(name)
+- Hook.run(name[, arg1, arg2, ...])
 	- run the named hook, return a promise
+	- the args(arg1, arg2,...) will be passed to each attached callback
 	- Callbacks are called in the order of `preAsync --> all resolved/rejected --> pre --> the hook --> postAsync --> all resolved/rejected --> post`. Any exception / reject, will abort the whole chain.	
 
 ## Error handling
